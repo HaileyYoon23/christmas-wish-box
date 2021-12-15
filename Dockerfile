@@ -7,7 +7,7 @@ WORKDIR /opt/app
 
 RUN go mod download
 
-RUN go build -o christmas-wish-box .
+RUN go build -o main .
 
 #ENTRYPOINT ["/bin/bash", "-c"]
-CMD ["/christmas-wish-box"]
+CMD ["/main"]
