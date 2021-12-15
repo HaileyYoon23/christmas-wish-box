@@ -16,8 +16,8 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
-          username: DOCkERHUB_HAILEY
-          password: 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
+          username: DOCKERHUB_HAILEY
+          password: haileyyoon23
 
       - name: Build and push
         id: docker_build
