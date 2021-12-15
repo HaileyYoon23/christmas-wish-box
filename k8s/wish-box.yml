@@ -1,0 +1,85 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: wish-box
+spec:
+  serviceName: wish-box
+  replicas: 1
+  podManagementPolicy: Parallel
+  selector:
+    matchLabels:
+      app: wish-box
+  template:
+    metadata:
+      labels:
+        app: wish-box
+    spec:
+      containers:
+        - name: wish-box
+          securityContext:
+            runAsUser: 65534
+            runAsGroup: 65534
+          image: idock.daumkakao.io/scrap/kkoto
+          command:
+            - sh
+            - -c
+            # language=sh
+            - exec env "WORKER_ID=$(($WORKER_ID_OFFSET+${HOSTNAME##*-}))" kko-to
+          ports:
+            - containerPort: 7000
+          resources:
+            requests:
+              cpu: 2000m
+            limits:
+              memory: 1Gi
+          readinessProbe:
+            httpGet:
+              path: /v2/version
+              port: 7000
+          envFrom:
+            - configMapRef:
+                name: kko-to
+            - secretRef:
+                name: kko-to
+                optional: true
+          env:
+            - name: TZ
+              value: Asia/Seoul
+            - name: STAT_LOG_URL
+              value: udp://127.0.0.1:5228
+            - name: GODEBUG
+              value: gctrace=1
+        - name: logstash
+          image: docker.elastic.co/logstash/logstash-oss:7.4.2
+          volumeMounts:
+            - name: kkoto-logstash
+              mountPath: /usr/share/logstash/pipeline/
+              readOnly: true
+          resources:
+            requests:
+              cpu: 1000m
+            limits:
+              memory: 1Gi
+          envFrom:
+            - configMapRef:
+                name: kko-to
+          env:
+            - name: TZ
+              value: Asia/Seoul
+            - name: LS_JAVA_OPTS
+              value: -Xms512m -Xmx512m
+      volumes:
+        - name: kkoto-logstash
+          configMap:
+            name: kko-to-logstash
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wish-box
+spec:
+  ports:
+    - port: 8000
+  selector:
+    app: wish-box
