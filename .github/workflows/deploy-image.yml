@@ -23,4 +23,4 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: haileyyoon23/christmas-wish-box:latest
+          tags: hclove61/christmas-wish-box:latest
