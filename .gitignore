@@ -16,3 +16,6 @@
 
 # SQLite Databases
 *.db
+
+# TOKEN
+TOKEN.txt
