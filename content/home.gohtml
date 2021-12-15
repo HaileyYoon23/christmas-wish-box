@@ -1,0 +1,27 @@
+{{template "_head.gohtml"}}
+<body>
+<div class="container mb-5">
+</div>
+<div class="container mb-5">
+    <h4 class="mt-5">Home</h4>
+    <form class="form-inline" action="/index/add" method="GET">
+        <input class="container-control mr-sm-2" type="text" name="gift" placeholder="내가 받고싶은 선물은?"/>
+        <button class="btn btn-primary" type="submit">갖고싶어!</button>
+    </form>
+    <table id="table" class="table" style="word-break:break-all">
+        <thead>
+        <tr>
+            <th class="text-center">gift</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range .giftList}}
+            <tr>
+                <td class="text-center">{{.}}</td>
+            </tr>
+        {{end}}
+        </tbody>
+    </table>
+</div>
+</body>
+
