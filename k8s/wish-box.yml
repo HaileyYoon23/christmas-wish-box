@@ -20,29 +20,19 @@ spec:
           securityContext:
             runAsUser: 65534
             runAsGroup: 65534
-          image: idock.daumkakao.io/scrap/kkoto
+          image: HaileyYoon23/christmas-wish-box:latest
           command:
             - sh
             - -c
             # language=sh
-            - exec env "WORKER_ID=$(($WORKER_ID_OFFSET+${HOSTNAME##*-}))" kko-to
+            - exec env "WORKER_ID=$(($WORKER_ID_OFFSET+${HOSTNAME##*-}))" wish-box
           ports:
-            - containerPort: 7000
+            - containerPort: 8000
           resources:
             requests:
               cpu: 2000m
             limits:
               memory: 1Gi
-          readinessProbe:
-            httpGet:
-              path: /v2/version
-              port: 7000
-          envFrom:
-            - configMapRef:
-                name: kko-to
-            - secretRef:
-                name: kko-to
-                optional: true
           env:
             - name: TZ
               value: Asia/Seoul
@@ -50,29 +40,6 @@ spec:
               value: udp://127.0.0.1:5228
             - name: GODEBUG
               value: gctrace=1
-        - name: logstash
-          image: docker.elastic.co/logstash/logstash-oss:7.4.2
-          volumeMounts:
-            - name: kkoto-logstash
-              mountPath: /usr/share/logstash/pipeline/
-              readOnly: true
-          resources:
-            requests:
-              cpu: 1000m
-            limits:
-              memory: 1Gi
-          envFrom:
-            - configMapRef:
-                name: kko-to
-          env:
-            - name: TZ
-              value: Asia/Seoul
-            - name: LS_JAVA_OPTS
-              value: -Xms512m -Xmx512m
-      volumes:
-        - name: kkoto-logstash
-          configMap:
-            name: kko-to-logstash
 ---
 apiVersion: v1
 kind: Service
