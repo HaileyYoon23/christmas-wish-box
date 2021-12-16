@@ -1,7 +1,6 @@
 package web
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/haileyyoon23/christmas-wish-box/content"
 	"github.com/haileyyoon23/christmas-wish-box/db"
@@ -44,23 +43,11 @@ func GiftAppendHandler(w http.ResponseWriter, r *http.Request) {
 func GiftLikeHandler(w http.ResponseWriter, r *http.Request) {
 	gift := r.URL.Query().Get("present")
 
-	likes, err := db.UpdateLike(db.DB, gift)
+	err := db.UpdateLike(gift)
 	if err != nil {
 		panic(err)
 	}
 
-	b, err := json.Marshal(templateStruct{
-		"likes" : likes,
-	})
-	if err != nil {
-		panic(err)
-	}
-
-	h := w.Header()
-	h.Set("Content-Type", "application/json")
-	h.Set("Content-Length", strconv.Itoa(len(b)))
-	w.WriteHeader(http.StatusOK)
-	_, _ = w.Write(b)
 }
 
 func ErrorHandler(next http.Handler) http.Handler {

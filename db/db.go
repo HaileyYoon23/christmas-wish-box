@@ -97,15 +97,16 @@ func GetGift(db *sql.DB) (xmasList []XMASPresent, err error) {
 	return
 }
 
-func UpdateLike(db *sql.DB, present string) (likes int, err error) {
-	err = db.QueryRow("select likes from presents where present=?", present).Scan(&likes)
+func UpdateLike(present string) (err error) {
+	var likes int
+
+	println(present)
+	err = DB.QueryRow("select likes from presents where present=?", present).Scan(&likes)
 	if err != nil {
 		return
 	}
 
-	likes += 1
-
-	_, err = db.Exec("update presents set likes=?", likes)
+	_, err = DB.Exec("update presents set likes=? where present=?", likes + 1, present)
 	if err != nil {
 		return
 	}
