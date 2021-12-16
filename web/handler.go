@@ -18,20 +18,26 @@ func HomePage(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
+	errMsg := r.URL.Query().Get("errMsg")
+
+
 	content.ExecuteTemplate(w, "home", templateStruct{
 		"giftList": gifts,
+		"errMsg": errMsg,
 	})
 }
 
 func GiftAppendHandler(w http.ResponseWriter, r *http.Request) {
 	gift := r.URL.Query().Get("gift")
 
+	var path string
+
 	err := db.AddGift(db.DB, gift)
 	if err != nil {
-		panic(err)
+		path = "?errMsg=" + err.Error()
 	}
 
-	http.Redirect(w, r, "/home", http.StatusSeeOther)
+	http.Redirect(w, r, "/home" + path, http.StatusSeeOther)
 }
 
 func ErrorHandler(next http.Handler) http.Handler {
