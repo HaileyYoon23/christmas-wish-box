@@ -22,6 +22,7 @@ func buildHandler() *mux.Router {
 	r.HandleFunc("/home", web.HomePage).Methods("GET")
 	r.HandleFunc("/index/add", web.GiftAppendHandler).Methods("GET")
 	r.HandleFunc("/index/like", web.GiftLikeHandler).Methods("GET")
+	r.HandleFunc("/index/dislike", web.GiftDislikeHandler).Methods("GET")
 	return r
 }
 

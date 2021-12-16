@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <style type="text/css">
         img {
             width: 100%;
@@ -669,6 +672,39 @@
             color: #b12f27;
             text-shadow: 0 1px 0 rgba(255,255,255,0.3);
         }
+
+
+        .dislike {
+            position: relative;
+            font-size: 2.5em;
+            width:0px;
+            height: 0px;
+            text-align: center;
+            vertical-align: top;
+            float: left;
+            cursor: pointer;
+            color: ghostwhite;
+        }
+
+        .dislike i{
+            position: absolute;
+            left: 0;
+            right: 0;
+            line-height: 0px;
+            -webkit-transition: all .25s ease-in-out;
+            -moz-transition: all .25s ease-in-out;
+            -o-transition: all .25s ease-in-out;
+            transition: all .25s ease-in-out;
+            -webkit-box-reflect: below -45px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(70%, transparent) , to(rgba(250, 250, 250, 0.1)));
+        }
+
+        .dislike:active {
+            color: #169AF9;
+        }
+
+        .dislike:active {
+            color: #000000;
+        }
     </style>
     <script>
         $('.btn-counter').on('click', function(event, count) {
@@ -686,11 +722,30 @@
         function getAndUpdateLike(Present) {
             fetch("http://xmas.theinfinitybeyond.com:9000/index/like?present="+Present)
         }
+        function getAndUpdateDislike(Present) {
+            fetch("http://xmas.theinfinitybeyond.com:9000/index/dislike?present="+Present)
+        }
         function onClick(Present) {
             var clickObj = document.getElementById(Present);
             var click = clickObj.innerText * 1;
             getAndUpdateLike(Present);
             document.getElementById(Present).innerHTML = click + 1;
         };
+        function onClickDislikes(Present) {
+            var clickObj = document.getElementById(Present + "Dislikes");
+            var click = clickObj.innerText * 1;
+            getAndUpdateDislike(Present);
+            document.getElementById(Present + "Dislikes").innerHTML = click + 1;
+        };
+        $(function() {
+            $('.dislike').click(function() {
+                event.preventDefault();
+                $('.active').removeClass('active');
+                $(this).effect("bounce", {
+                    times: 4
+                }, 1000);
+                $(this).addClass('active');
+            });
+        })
     </script>
 </head>

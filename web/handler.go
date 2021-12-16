@@ -47,7 +47,15 @@ func GiftLikeHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+}
 
+func GiftDislikeHandler(w http.ResponseWriter, r *http.Request) {
+	gift := r.URL.Query().Get("present")
+
+	err := db.UpdateDislike(gift)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func ErrorHandler(next http.Handler) http.Handler {

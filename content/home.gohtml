@@ -16,6 +16,9 @@
         <thead>
         <tr>
             <th class="text-center"> </th>
+            <th class="text-center"> </th>
+            <th class="text-center"> </th>
+            <th class="text-center"> </th>
         </tr>
         </thead>
         <tbody>
@@ -26,6 +29,17 @@
                     <p>
                         <button type="button" onClick="onClick({{.Present}})" title="Love it" class="btn"}><span>&#x2764;<a id="{{.Present}}">{{.Likes}}</a></span></button>
                     </p>
+                </td>
+                <td class="text-center"  style="color: antiquewhite; width: 40px;">
+                    <p>
+                        <button type="button" onClick="onClickDislikes({{.Present}})" title="Love it" class="dislike"}>
+                            <i class="fa fa-thumbs-down">
+                            </i>
+                        </button>
+                    </p>
+                </td>
+                <td>
+                    <p id="{{.Present}}Dislikes" style="width: 50px;color: white;font-size: 20px">{{.Dislikes}}</p>
                 </td>
             </tr>
         {{end}}

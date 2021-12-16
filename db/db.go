@@ -20,6 +20,7 @@ var (
 type XMASPresent struct {
 	Present string
 	Likes int
+	Dislikes int
 }
 
 func init() {
@@ -45,6 +46,7 @@ func init() {
 		id BIGINT NOT NULL AUTO_INCREMENT,
 		present VARCHAR(100),
 		likes	INT,
+		dislikes INT,
 		PRIMARY KEY (id),
 		UNIQUE (present)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -78,19 +80,21 @@ func AddGift(db *sql.DB, gift string) (err error) {
 func GetGift(db *sql.DB) (xmasList []XMASPresent, err error) {
 	var gift string
 	var likes int
+	var dislikes int
 
-	rows, err := db.Query("select present, likes from presents order by likes desc")
+	rows, err := db.Query("select present, likes, dislikes from presents order by likes desc")
 
 	defer rows.Close()
 
 	for rows.Next() {
-		err = rows.Scan(&gift, &likes)
+		err = rows.Scan(&gift, &likes, &dislikes)
 		if err != nil {
 			return
 		}
 		xmasList = append(xmasList, XMASPresent{
 			Present: gift,
 			Likes: likes,
+			Dislikes: dislikes,
 		})
 	}
 
@@ -100,13 +104,28 @@ func GetGift(db *sql.DB) (xmasList []XMASPresent, err error) {
 func UpdateLike(present string) (err error) {
 	var likes int
 
-	println(present)
 	err = DB.QueryRow("select likes from presents where present=?", present).Scan(&likes)
 	if err != nil {
 		return
 	}
 
 	_, err = DB.Exec("update presents set likes=? where present=?", likes + 1, present)
+	if err != nil {
+		return
+	}
+
+	return
+}
+
+func UpdateDislike(present string) (err error) {
+	var dislikes int
+
+	err = DB.QueryRow("select dislikes from presents where present=?", present).Scan(&dislikes)
+	if err != nil {
+		return
+	}
+
+	_, err = DB.Exec("update presents set dislikes=? where present=?", dislikes+ 1, present)
 	if err != nil {
 		return
 	}
