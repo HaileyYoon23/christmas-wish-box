@@ -2,14 +2,15 @@
 <body>
 <div class="container mb-5">
 </div>
-<div class="container mb-5">
-    <h2 class="mt-5">Home</h2>
+<!-- partial:index.partial.html -->
+<div class="bubbles">
+    <h2 class="mt-5" style="color: white">Home</h2>
     <form class="form-inline" action="/index/add" method="GET">
         <input class="container-control mr-sm-2" type="text" name="gift" placeholder="내가 받고싶은 선물은?"/>
         <button class="btn btn-primary" type="submit">갖고싶어!</button>
     </form>
     <div>
-        <h3>GIFT LIST</h3>
+        <h3 style="color: white">GIFT LIST</h3>
     </div>
     <table id="table" class="table" style="word-break:break-all">
         <thead>
@@ -20,16 +21,67 @@
         <tbody>
         {{range .giftList}}
             <tr>
-                <td class="text-center">{{.}}</td>
+                <td class="text-center"  style="color: antiquewhite;"><b>{{.}}</b></td>
             </tr>
         {{end}}
         <div>
-            <p style="color: darkred">
+            <p style="color: red">
                 {{.errMsg}}
             </p>
         </div>
         </tbody>
     </table>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
 </div>
+
 </body>
 
