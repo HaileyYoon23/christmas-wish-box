@@ -2,41 +2,50 @@ package db
 
 import (
 	"database/sql"
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/go-sql-driver/mysql"
 	"log"
+	"os"
+	"runtime"
+	"strconv"
+	"time"
 )
 
 var DB *sql.DB
-var dbName = "tables.db"
 
 func init() {
 	var err error
+	//dsn := "mysql://root@localhost/XMAS"
+	//
+	//u, err := url.Parse(dsn)
+	////if err == nil {
+		DB, err = sql.Open("mysql", "root:315931@tcp(127.0.0.1:3306)/XMAS")//u.User.String()+"@tcp("+u.Host+")"+u.RequestURI())
+	//}
 
-	DB, err = InitDB(dbName)
 	if err != nil {
 		panic(err)
 	}
-}
 
-func InitDB(file string) (*sql.DB, error) {
-	db, err := sql.Open("sqlite3", file)
-	if err != nil {
-		return nil, err
+	maxOpen, _ := strconv.Atoi(os.Getenv("MAX_OPEN_CONN"))
+	if maxOpen <= 0 {
+		maxOpen = runtime.NumCPU() * 2
 	}
+
+	DB.SetConnMaxIdleTime(10 * time.Minute)
+	DB.SetMaxIdleConns(maxOpen)
+	DB.SetMaxOpenConns(maxOpen)
 
 	createTableQuery := `
 		create table IF NOT EXISTS presents ( 
-		id integer PRIMARY KEY autoincrement,
-		present string,
-		UNIQUE (gift)
-		)
+		id BIGINT NOT NULL AUTO_INCREMENT,
+		present VARCHAR(100),
+		PRIMARY KEY (id),
+		UNIQUE (present)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	`
-	_, e := db.Exec(createTableQuery)
-	if e != nil {
-		return nil, e
+	_, err = DB.Exec(createTableQuery)
+	if err != nil {
+		panic(err)
 	}
-
-	return db, nil
 }
 
 func AddGift(db *sql.DB, gift string) (err error) {
