@@ -26,7 +26,10 @@ func HomePage(w http.ResponseWriter, r *http.Request) {
 func GiftAppendHandler(w http.ResponseWriter, r *http.Request) {
 	gift := r.URL.Query().Get("gift")
 
-	db.AddGift(db.DB, gift)
+	err := db.AddGift(db.DB, gift)
+	if err != nil {
+		panic(err)
+	}
 
 	http.Redirect(w, r, "/home", http.StatusSeeOther)
 }
