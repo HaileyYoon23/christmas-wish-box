@@ -687,10 +687,10 @@
             fetch("http://xmas.theinfinitybeyond.com:9000/index/like?present="+Present)
         }
         function onClick(Present) {
-            var clickObj = document.getElementById("clicks");
+            var clickObj = document.getElementById("clicks"+Present);
             var click = clickObj.innerText * 1;
             getAndUpdateLike(Present);
-            document.getElementById("clicks").innerHTML = click + 1;
+            document.getElementById("clicks"+Present).innerHTML = click + 1;
         };
     </script>
 </head>
