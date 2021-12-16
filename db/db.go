@@ -18,7 +18,7 @@ func init() {
 	//
 	//u, err := url.Parse(dsn)
 	////if err == nil {
-		DB, err = sql.Open("mysql", "root:315931@tcp(127.0.0.1:3306)/XMAS")//u.User.String()+"@tcp("+u.Host+")"+u.RequestURI())
+		DB, err = sql.Open("mysql", "doadmin:VmKcD8m0tWnKOv3E@tcp(xmas-do-user-10452914-0.b.db.ondigitalocean.com:25060)/XMAS")//"root:315931@tcp(127.0.0.1:3306)/XMAS")//u.User.String()+"@tcp("+u.Host+")"+u.RequestURI())
 	//}
 
 	if err != nil {
