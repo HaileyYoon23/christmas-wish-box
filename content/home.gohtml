@@ -19,9 +19,14 @@
         </tr>
         </thead>
         <tbody>
-        {{range .giftList}}
+        {{range .xmasList}}
             <tr>
-                <td class="text-center"  style="color: antiquewhite;"><b>{{.}}</b></td>
+                <td class="text-center"  style="color: antiquewhite;"><b>{{.Present}}</b></td>
+                <td class="text-center"  style="color: antiquewhite;">
+                    <p>
+                        <button type="button" onClick="onClick({{.Present}})" title="Love it" class="btn"}><span>&#x2764;<a id="clicks">{{.Likes}}</a></span></button>
+                    </p>
+                </td>
             </tr>
         {{end}}
         <div>
@@ -82,6 +87,5 @@
     <div class="bubble"></div>
     <div class="bubble"></div>
 </div>
-
 </body>
 

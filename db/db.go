@@ -17,6 +17,11 @@ var (
 	ErrDuplicateGift = errors.New("already exist gift")
 )
 
+type XMASPresent struct {
+	Present string
+	Likes int
+}
+
 func init() {
 	var err error
 
@@ -39,6 +44,7 @@ func init() {
 		create table IF NOT EXISTS presents ( 
 		id BIGINT NOT NULL AUTO_INCREMENT,
 		present VARCHAR(100),
+		likes	INT,
 		PRIMARY KEY (id),
 		UNIQUE (present)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -59,8 +65,8 @@ func AddGift(db *sql.DB, gift string) (err error) {
 	}
 
 	tx, _ := db.Begin()
-	stmt, _ := tx.Prepare("insert into presents (present) values (?)")
-	_, err = stmt.Exec(gift)
+	stmt, _ := tx.Prepare("insert into presents (present, likes) values (?, ?)")
+	_, err = stmt.Exec(gift, 0)
 	if err != nil {
 		log.Println(err.Error())
 		return err
@@ -69,19 +75,39 @@ func AddGift(db *sql.DB, gift string) (err error) {
 	return
 }
 
-func GetGift(db *sql.DB) (gifts []string, err error) {
+func GetGift(db *sql.DB) (xmasList []XMASPresent, err error) {
 	var gift string
+	var likes int
 
-	rows, err := db.Query("select present from presents")
+	rows, err := db.Query("select present, likes from presents order by likes desc")
 
 	defer rows.Close()
 
 	for rows.Next() {
-		err = rows.Scan(&gift)
+		err = rows.Scan(&gift, &likes)
 		if err != nil {
 			return
 		}
-		gifts = append(gifts, gift)
+		xmasList = append(xmasList, XMASPresent{
+			Present: gift,
+			Likes: likes,
+		})
+	}
+
+	return
+}
+
+func UpdateLike(db *sql.DB, present string) (likes int, err error) {
+	err = db.QueryRow("select likes from presents where present=?", present).Scan(&likes)
+	if err != nil {
+		return
+	}
+
+	likes += 1
+
+	_, err = db.Exec("update presents set likes=?", likes)
+	if err != nil {
+		return
 	}
 
 	return
