@@ -1,6 +1,7 @@
 package web
 
 import (
+	"errors"
 	"fmt"
 	"github.com/haileyyoon23/christmas-wish-box/content"
 	"github.com/haileyyoon23/christmas-wish-box/db"
@@ -8,9 +9,14 @@ import (
 	"path"
 	"runtime"
 	"strconv"
+	"strings"
 )
 
 type templateStruct map[string]interface{}
+
+var (
+	ErrEmptyGift = errors.New("blank is not gift")
+)
 
 func HomePage(w http.ResponseWriter, r *http.Request) {
 	xmasList, err := db.GetGift(db.DB)
@@ -29,10 +35,19 @@ func HomePage(w http.ResponseWriter, r *http.Request) {
 
 func GiftAppendHandler(w http.ResponseWriter, r *http.Request) {
 	gift := r.URL.Query().Get("gift")
+	giftTemp := gift
 
 	var path string
+	var err error
 
-	err := db.AddGift(db.DB, gift)
+	if strings.Trim(giftTemp," ") == "" {
+		err = ErrEmptyGift
+	}
+	if err != nil {
+		path = "?errMsg=" + err.Error()
+	}
+
+	err = db.AddGift(db.DB, gift)
 	if err != nil {
 		path = "?errMsg=" + err.Error()
 	}

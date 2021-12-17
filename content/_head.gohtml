@@ -532,7 +532,16 @@
                 transform: translateX(-100%);
             }
         }
-
+        .spanspace {
+            border-left: 1px solid;
+            border: 5px solid #011D03;
+            height: 100%;
+        }
+        .verticalline {
+            border-left: 1px solid black;
+            height: 100%;
+            border-color: white;
+        }
         h3 {
             margin-top: 30px;
             font-size: 18px;
@@ -619,36 +628,80 @@
         }
 
 
-        .dislike {
+        /*
+         * Basic button style
+         */
+        .dislikebtn {
+            box-shadow: 1px 1px 0 rgba(255,255,255,0.5) inset;
+            border-radius: 3px;
+            border: 1px solid;
+            display: inline-block;
+            height: 18px;
+            line-height: 18px;
+            padding: 0 8px;
             position: relative;
-            font-size: 2.5em;
-            width:0px;
-            height: 0px;
-            text-align: center;
-            vertical-align: top;
-            float: left;
-            cursor: pointer;
-            color: ghostwhite;
-        }
 
-        .dislike i{
+            font-size: 12px;
+            text-decoration: none;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+        }
+        /*
+         * Counter button style
+         */
+        .dislikebtn-counter { margin-right: 39px; }
+        .dislikebtn-counter:after,
+        .dislikebtn-counter:hover:after { text-shadow: none; }
+        .dislikebtn-counter:after {
+            border-radius: 3px;
+            border: 1px solid #d3d3d3;
+            background-color: #eee;
+            padding: 0 8px;
+            color: #777;
+            content: attr(data-count);
+            left: 100%;
+            margin-left: 8px;
+            margin-right: -13px;
             position: absolute;
-            left: 0;
-            right: 0;
-            line-height: 0px;
-            -webkit-transition: all .25s ease-in-out;
-            -moz-transition: all .25s ease-in-out;
-            -o-transition: all .25s ease-in-out;
-            transition: all .25s ease-in-out;
-            -webkit-box-reflect: below -45px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(70%, transparent) , to(rgba(250, 250, 250, 0.1)));
+            top: -1px;
         }
+        .dislikebtn-counter:before {
+            transform: rotate(45deg);
+            filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476, sizingMethod='auto expand');
 
-        .dislike:active {
-            color: #169AF9;
+            background-color: #eee;
+            border: 1px solid #d3d3d3;
+            border-right: 0;
+            border-top: 0;
+            content: '';
+            position: absolute;
+            right: -13px;
+            top: 5px;
+            height: 6px;
+            width: 6px;
+            z-index: 1;
+            zoom: 1;
         }
-
-        .dislike:active {
-            color: #000000;
+        /*
+         * Custom styles
+         */
+        .dislikebtn {
+            background-color: #dbdbdb;
+            border-color: #bbb;
+            color: #666;
+        }
+        .dislikebtn:hover,
+        .dislikebtn.active {
+            text-shadow: 0 1px 0 #b12f27;
+            background-color: #f64136;
+            border-color: #b12f27;
+        }
+        .dislikebtn:active { box-shadow: 0 0 5px 3px rgba(0,0,0,0.2) inset; }
+        .dislikebtn span { color: #f64136; }
+        .dislikebtn:hover, .btn:hover span,
+        .dislikebtn.active, .btn.active span { color: #eeeeee; }
+        .dislikebtn:active span {
+            color: #b12f27;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.3);
         }
     </style>
     <script>

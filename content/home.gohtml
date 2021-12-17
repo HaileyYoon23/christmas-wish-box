@@ -27,19 +27,25 @@
                 <td class="text-center"  style="color: antiquewhite;"><b>{{.Present}}</b></td>
                 <td class="text-center"  style="color: antiquewhite;">
                     <p>
-                        <button type="button" onClick="onClick({{.Present}})" title="Love it" class="btn"}><span>&#x2764;<a id="{{.Present}}">{{.Likes}}</a></span></button>
+                        <button type="button" onClick="onClick({{.Present}})" title="Love it" class="btn"}><span>&#x2764;</span></button>
                     </p>
+                </td>
+
+                <td>
+                    <a id="{{.Present}}" style="width: 50px;color: #f64136;font-size: 15px"><b>{{.Likes}}</b></a>
+                    <span class="spanspace"></span>
+                    <span class="verticalline"></span>
                 </td>
                 <td class="text-center"  style="color: antiquewhite; width: 40px;">
                     <p>
-                        <button type="button" onClick="onClickDislikes({{.Present}})" title="Love it" class="dislike"}>
+                        <button type="button" onClick="onClickDislikes({{.Present}})" title="Dislike it" class="dislikebtn"}>
                             <i class="fa fa-thumbs-down">
                             </i>
                         </button>
                     </p>
                 </td>
                 <td>
-                    <p id="{{.Present}}Dislikes" style="width: 50px;color: white;font-size: 20px">{{.Dislikes}}</p>
+                    <p id="{{.Present}}Dislikes" style="width: 50px;color: white;font-size: 15px"><b>{{.Dislikes}}</b></p>
                 </td>
             </tr>
         {{end}}
