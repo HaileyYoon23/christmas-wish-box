@@ -44,10 +44,15 @@ func GiftAppendHandler(w http.ResponseWriter, r *http.Request) {
 		err = ErrEmptyGift
 	}
 	if err != nil {
-		path = "?errMsg=" + err.Error()
+		goto ERRORS
 	}
 
 	err = db.AddGift(db.DB, gift)
+	if err != nil {
+		goto ERRORS
+	}
+
+ERRORS:
 	if err != nil {
 		path = "?errMsg=" + err.Error()
 	}
